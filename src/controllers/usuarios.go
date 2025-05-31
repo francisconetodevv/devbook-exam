@@ -18,9 +18,12 @@ func CriarUsuario(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(erro)
 	}
 
+	fmt.Println(string(corpoRequest))
+
 	var usuario modelos.Usuario
 
-	if erro := json.Unmarshal(corpoRequest, &usuario); erro != nil {
+	if erro = json.Unmarshal(corpoRequest, &usuario); erro != nil {
+		fmt.Println("Ta dando erro aqui")
 		log.Fatal(erro)
 	}
 
