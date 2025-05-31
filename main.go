@@ -12,10 +12,9 @@ import (
 func main() {
 	// Carregando as variáveis de ambiente
 	config.Carregar()
-	fmt.Println(config.StringConexaoBanco)
-
-	fmt.Println("Rodando API")
 	r := router.Gerar()
+
+	fmt.Printf("Escutando na porta %d", config.Porta)
 
 	// Subindo o server em uma porta
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", config.Porta), r))
