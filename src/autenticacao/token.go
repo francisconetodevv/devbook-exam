@@ -27,7 +27,7 @@ func CriarToken(usuarioID uint64) (string, error) {
 // Validar token verificar se o token é valido
 func ValidarToken(r *http.Request) error {
 	tokenString := extrairToken(r)
-	token, erro := jwt.Parse(tokenString, retornarChaveVerificacao)
+	token, erro := jwt.Parse(tokenString, retornarChaveDeVerificacao)
 
 	if erro != nil {
 		return erro
@@ -43,7 +43,7 @@ func ValidarToken(r *http.Request) error {
 // ExtrairUsuarioID retorna o usuário ID que está salvo no token
 func ExtrairUsuarioID(r *http.Request) (uint64, error) {
 	tokenString := extrairToken(r)
-	token, erro := jwt.Parse(tokenString, retornarChaveVerificacao)
+	token, erro := jwt.Parse(tokenString, retornarChaveDeVerificacao)
 
 	if erro != nil {
 		return 0, erro
@@ -64,14 +64,14 @@ func ExtrairUsuarioID(r *http.Request) (uint64, error) {
 func extrairToken(r *http.Request) string {
 	token := r.Header.Get("Authorization")
 
-	if len(strings.Split(token, "")) == 2 {
-		return strings.Split(token, "")[1]
+	if len(strings.Split(token, " ")) == 2 {
+		return strings.Split(token, " ")[1]
 	}
 
 	return ""
 }
 
-func retornarChaveVerificacao(token *jwt.Token) (interface{}, error) {
+func retornarChaveDeVerificacao(token *jwt.Token) (interface{}, error) {
 	if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 		return nil, fmt.Errorf("Método de assinatura inesperado! %v", token.Header["alg"])
 	}
